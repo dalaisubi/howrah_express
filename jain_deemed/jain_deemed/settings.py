@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'user_accounts',
     'rounds',
+    'questions',
 ]
 
 MIDDLEWARE = [

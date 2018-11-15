@@ -17,4 +17,4 @@ class FileSerializer(serializers.ModelSerializer):
 	owner = serializers.ReadOnlyField(source='owner.user.id')
 	class Meta():
 		model = File
-		fields = ('file', 'remark', 'timestamp', 'owner')
+		fields = ('file', 'remark', 'timestamp', 'level', 'owner')
