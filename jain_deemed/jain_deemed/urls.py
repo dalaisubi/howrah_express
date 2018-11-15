@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/', include('user_accounts.urls', namespace='users-api')),
     #path('api/file-submit', FileUploadViewSet.as_view(), name="file-upload"),
     path('api/file/', include('rounds.urls')),
+    path('api/set/', include('questions.urls')),
    
 ]
 

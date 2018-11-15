@@ -4,6 +4,10 @@ from .models import FileUpload, File
 from .serializers import FileUploadSerializer, FileSerializer
 
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 class FileUploadViewSet(ModelViewSet):
     
     queryset = FileUpload.objects.all()
@@ -16,9 +20,6 @@ class FileUploadViewSet(ModelViewSet):
         return serializer
 
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 class FileView(APIView):
 	queryset = File.objects.all()
 	parser_classes = (MultiPartParser, FormParser)
