@@ -20,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')h&e5ne#2+n&n4_12@4-fqgj5)=n#%h*nzm03m$*awsnvsk8&s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,14 +80,7 @@ WSGI_APPLICATION = 'jain_deemed.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        'ENGINE': 'django.db.backends.mysql', 
-        # 'NAME': 'db.sqlite3',
-        'NAME': 'ju',
-        'USER': 'ju123',
-        'PASSWORD': 'jain12345',
-        'HOST': 'jain-university.ce2rnydfzsiq.us-east-1.rds.amazonaws.com',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        
     }
 }
 

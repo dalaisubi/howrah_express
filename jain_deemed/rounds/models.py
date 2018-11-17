@@ -9,7 +9,7 @@ class FileUpload(models.Model):
 
 
 class File(models.Model):
-	file = models.FileField(blank=False, null=False)
+	file = models.FileField(blank=True, null=True)
 	remark = models.CharField(max_length=20)
 	owner = models.ForeignKey(User, to_field='id', on_delete=models.CASCADE, default=1)
 	level = models.ForeignKey(Questions, to_field='id', on_delete=models.CASCADE, default=1)

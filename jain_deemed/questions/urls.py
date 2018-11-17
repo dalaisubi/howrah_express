@@ -4,5 +4,5 @@ from .views import QuestionList
 
 
 urlpatterns = [
-	url(r'^question/$', QuestionList.as_view(), name='get-question'),
+	url(r'^get/$', QuestionList.as_view(), name='get-question'),
 ]

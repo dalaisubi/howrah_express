@@ -1,0 +1,80 @@
+cd Downloads/
+mv  ****.pem ~/Desktop/  #move the pem file to desktop
+cd ..
+cd desktop
+
+chmod 400 ***.pem    # For change the file mod
+
+ssh -i "jain_university.pem" ubuntu@ec2-107-22-129-3.compute-1.amazonaws.com # to connect with my system
+
+sudo apt-get update
+sudo apt-get install python-pip python-dev nginx git
+
+Y
+
+sudo apt-get update
+sudo pip install virtualenv
+git clone **********
+
+cd ****
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install django bcrypt django-extensions
+pip install guicorn
+cd ****
+sudo vim settings.py 
+-------------------------------------------------------------------------------------
+sudo vim /etc/systemd/system/gunicorn.service
+
+i
+
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/jain_deemed/
+ExecStart=/home/ubuntu/jain_deemed/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/jain_deemed/jain_deemed.sock jain_deemed.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+esc
+:wq
+
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+
+sudo vim /etc/nginx/sites-available/jain_deemed
+
+i
+
+
+server {
+    listen 80;
+    server_name 18.206.252.97;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/ubuntu/jain_deemed/jain_deemed;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/jain_deemed/jain_deemed.sock;
+    }
+}
+
+esc
+:wq
+
+sudo ln -s /etc/nginx/sites-available/jain_deemed /etc/nginx/sites-enabled
+sudo nginx -t
+sudo rm /etc/nginx/sites-enabled/default
+sudo service nginx restart
+
+

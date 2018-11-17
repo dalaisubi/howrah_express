@@ -1,0 +1,22 @@
+
+
+Admin access:
+http://18.206.252.97/admin/
+user: dalai
+passwd: testing@123
+
+
+Login:
+http://18.206.252.97/api/auth/login/
+
+
+logout:
+http://18.206.252.97/api/auth/logout/
+
+Get Question:
+http://18.206.252.97/api/set/question/
+send level as query_param
+
+Submit answer:
+http://18.206.252.97/api/file/upload/
+file, remark and level mandatory
