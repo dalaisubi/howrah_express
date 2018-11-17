@@ -25,12 +25,15 @@ class FileView(APIView):
 	parser_classes = (MultiPartParser, FormParser)
 	serializer_class = FileSerializer
 	def post(self, request, *args, **kwargs):
+		owner=self.request.user
+		file_obj = File.objects.filter(owner=owner.id, level=self.request.data['level'])
 		file_serializer = FileSerializer(data=self.request.data)
-		if file_serializer.is_valid():
-		  file_serializer.save(owner=self.request.user)
-		  return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+		if file_obj.count() < 1:
+			if file_serializer.is_valid():
+			  file_serializer.save(owner=owner)
+			  return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+			else:
+			  return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 		else:
-		  return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
-	# def perform_create(self, serializer):
-	# 	serializer.save(owner=self.request.user)		  
+			return Response({"response": "Already Submited"})		  
+					  

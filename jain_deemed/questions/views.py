@@ -11,22 +11,17 @@ from rounds.models import File
 class QuestionList(generics.ListAPIView):
     serializer_class = QuestionSerializer
     queryset = Questions.objects.all()
-    """
-		Have to add exceptions with status code
-    """
+    
     def get_queryset(self):
         user = self.request.user.id
         level = self.request.query_params.get('level')
-
-        if level:
-        	level_id = Questions.objects.filter(level=level).values_list('id', flat=True).first()
-        	
-        	submited = File.objects.filter(level=level_id, owner=user)
-        	print(level_id,'submited',submited, submited.count())
-        	if submited.count() < 1:
-	        	qs = Questions.objects.filter(level=level)
-	        	return qs
+        qs = Questions.objects.all()
         
-        #return Response({'error': str("j")}, status=status.HTTP_408_REQUEST_TIMEOUT, content_type='application/json')
+        if level:
+            qs = Questions.objects.filter(level=level)
+            if qs.count() < 1:
+                return None              
+        return qs    
 
-        #return Purchase.objects.filter(purchaser=user)
+    def get_serializer_context(self):
+        return {"user_id": self.request.user.id }         
