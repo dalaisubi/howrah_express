@@ -1,16 +1,30 @@
 from django.db import models
+from django.core.validators import MinLengthValidator, MaxValueValidator, MinValueValidator
 
 # Create your models here.
+class Level(models.Model):
+	timestamp = models.DateTimeField(auto_now_add=True)
+	level = models.CharField(max_length=15, unique=True, blank=False, null=False)
+	password = models.CharField(max_length=20, validators=[MinLengthValidator(8)])
+
+	def __str__(self):
+		return self.level
+
 
 class Questions(models.Model):
-	level = models.CharField(max_length=7, unique=True, blank=False, null=False)
+	level = models.ForeignKey(Level, to_field='id', on_delete=models.CASCADE, default=1, related_name='questions')
 	question_1 = models.CharField(max_length=4444, blank=False, null=False)
 	question_2 = models.CharField(max_length=4444, blank=True, null=True)
 	hint_1 = models.CharField(max_length=600, blank=True, null=True)
 	hint_2 = models.CharField(max_length=600, blank=True, null=True)
 	hint_3 = models.CharField(max_length=600, blank=True, null=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
+	time_in_hr = models.IntegerField(blank=False, null=False, choices=[(i, i) for i in range(0, 72)])
+	time_in_min = models.IntegerField(blank=False, null=False, choices=[(i, i) for i in range(1, 61)])
 
 
 	def __str__(self):
-		return self.level
+		return str(self.level) + "--" + str(self.id)
+
+
+
