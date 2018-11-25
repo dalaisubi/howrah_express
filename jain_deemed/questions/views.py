@@ -30,7 +30,7 @@ class QuestionList(generics.ListAPIView):
             qs = Questions.objects.filter(level=int(level_id))
             if qs.count() == 1:
                 return qs              
-        return qs   
+        return None   
 
     def get_serializer_context(self):
         level = None
@@ -54,7 +54,7 @@ class LoginAsLevel(APIView):
             request.session['level_of_contest'] = new_data['level']
             if 'password' in new_data:
                 new_data.pop('password')    
-            return HttpResponseRedirect('/api/question/level/get/')    
+            return HttpResponseRedirect('/api/v1/level/get/')    
             #return Response(new_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)                
 
