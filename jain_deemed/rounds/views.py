@@ -3,10 +3,15 @@ from rest_framework.viewsets import ModelViewSet
 from .models import FileUpload, File
 from .serializers import FileUploadSerializer, FileSerializer
 
+from questions.models import Questions
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+import datetime
+from pytz import timezone 
+
 
 class FileUploadViewSet(ModelViewSet):
     
@@ -28,12 +33,20 @@ class FileView(APIView):
 		owner=self.request.user
 		file_obj = File.objects.filter(owner=owner.id, level=self.request.data['level'])
 		file_serializer = FileSerializer(data=self.request.data)
-		if file_obj.count() < 1:
-			if file_serializer.is_valid():
-			  file_serializer.save(owner=owner)
-			  return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+		level = self.request.data['level']
+		ist = timezone('Asia/Kolkata')
+		now = datetime.datetime.now(ist)
+		day = Questions.objects.get(level=level).day
+		
+		if now < day: 
+			if file_obj.count() < 1:
+				if file_serializer.is_valid():
+				  file_serializer.save(owner=owner)
+				  return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+				else:
+				  return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 			else:
-			  return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+				return Response({"response": "Already Submited"})
 		else:
-			return Response({"response": "Already Submited"})		  
+			return Response({"response": "This task is expired"})		  
 					  

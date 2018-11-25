@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from .models import Questions, Level
 from rest_framework import generics
-from .serializers import QuestionSerializer, LoginLevelSerializer
+from .serializers import QuestionSerializer, LoginLevelSerializer, AllTaskSerializers
 from rest_framework.views import APIView
-
+from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework import status
+
+import datetime
+from pytz import timezone 
 
 from rounds.models import File
 
@@ -14,22 +17,26 @@ class QuestionList(generics.ListAPIView):
     queryset = Questions.objects.all()
     
     def get_queryset(self):
-        #print(self.request.session['eligible_for_level'], '-----', self.request.session['level_of_contest'])
         user = self.request.user.id
-        level = None
-        if self.request.session['level_of_contest']:
-            level = self.request.session['level_of_contest']
+        level = None        
         qs = Questions.objects.all()
+        if 'level_of_contest' in self.request.session:
+            level = self.request.session['level_of_contest']      
         
-        if self.request.session['eligible_for_level']:
-            level_id = Level.objects.get(level__exact=level).id
+        print("eligible_for_level ------")
+        if 'eligible_for_level' in self.request.session:
+            print("eligible_for_level =====")
+            level_id = Level.objects.get(id=level).id
             qs = Questions.objects.filter(level=int(level_id))
             if qs.count() == 1:
                 return qs              
-        return None   
+        return qs   
 
     def get_serializer_context(self):
-        return {"user_id": self.request.user.id, "level_of_contest": self.request.session['level_of_contest'] } 
+        level = None
+        if 'level_of_contest' in self.request.session:
+            level = self.request.session['level_of_contest']
+        return {"user_id": self.request.user.id, "level_of_contest": level} 
 
 
 class LoginAsLevel(APIView):
@@ -46,6 +53,24 @@ class LoginAsLevel(APIView):
             request.session['eligible_for_level'] = True
             request.session['level_of_contest'] = new_data['level']
             if 'password' in new_data:
-                new_data.pop('password')
-            return Response(new_data, status=status.HTTP_200_OK)
+                new_data.pop('password')    
+            return HttpResponseRedirect('/api/question/level/get/')    
+            #return Response(new_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)                
+
+
+class AllTaskView(generics.ListAPIView):
+    queryset = Questions.objects.all()
+    serializer_class = AllTaskSerializers 
+
+    def get_queryset(self):        
+        level = None        
+        qs = Questions.objects.all()          
+        return qs   
+
+    def get_serializer_context(self):
+        user = self.request.user.id
+        return {"user_id": self.request.user.id} 
+
+class DetailTaskView(generics.RetrieveAPIView):
+    queryset = Questions.objects.all()  

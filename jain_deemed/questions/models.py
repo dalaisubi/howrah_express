@@ -12,6 +12,8 @@ class Level(models.Model):
 
 
 class Questions(models.Model):
+	title = models.CharField(max_length=30, blank=False, null=False)
+	day = models.DateTimeField(editable=True)
 	level = models.ForeignKey(Level, to_field='id', on_delete=models.CASCADE, default=1, related_name='questions')
 	question_1 = models.CharField(max_length=4444, blank=False, null=False)
 	question_2 = models.CharField(max_length=4444, blank=True, null=True)
