@@ -22,10 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('api-auth/', include('rest_framework.urls', namespace='api-auth')),
     path('api/auth/', include('rest_auth.urls')),
-    #path('api/', include('user_accounts.urls', namespace='users-api')),
+    #path('api/v1/', include('user_accounts.urls', namespace='users-api')),
     #path('api/file-submit', FileUploadViewSet.as_view(), name="file-upload"),
-    path('api/file/', include('rounds.urls')),
-    path('api/question/', include('questions.urls')),
+    path('api/v1/file/', include('rounds.urls')),
+    path('api/v1/', include('questions.urls')),
    
 ]
 
