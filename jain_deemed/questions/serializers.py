@@ -36,7 +36,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 		return 'nn'	
 	class Meta():
 		model = Questions
-		fields = ('id','level','title', 'timestamp', 'timeleft', 'day', 'question_1', 'question_2', 'hint_1', 'hint_2', 'hint_3', 'time_in_hr', 'time_in_min', 'Status')
+		fields = ('id','level','title', 'timestamp', 'timeleft', 'day','event', 'question_1', 'question_2', 'hint_1', 'hint_2', 'hint_3', 'time_in_hr', 'time_in_min', 'Status')
 
 	
 class LoginLevelSerializer(serializers.ModelSerializer):
@@ -97,4 +97,4 @@ class AllTaskSerializers(serializers.ModelSerializer):
 
 	class Meta:
 		model = Questions
-		fields = ('id','level', 'title', 'day', 'Status')		
+		fields = ('id','level', 'title', 'event', 'day', 'Status')		
