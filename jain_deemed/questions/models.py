@@ -12,10 +12,10 @@ class Level(models.Model):
 
 
 DAY_IN_EVENT_CHOICES = (
-    ('d1', 'Day-1'),
-    ('d2', 'Day-2'),
-    ('d3', 'Day-3'),
-    ('d4', 'Day-4'),
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
 )
 
 class Questions(models.Model):

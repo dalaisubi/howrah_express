@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'user_accounts',
     'rounds',
     'questions',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'jain_deemed.urls'
@@ -149,3 +153,15 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+    'https://peaceful-coast-96865.herokuapp.com'
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost:3000',
+    'https://peaceful-coast-96865.herokuapp.com'
+)
