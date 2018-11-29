@@ -7,12 +7,18 @@ from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
 import datetime
 from pytz import timezone 
 
 from rounds.models import File
 
 class QuestionList(generics.ListAPIView):
+    authentication_classes = TokenAuthentication
+    #permission_classes = (IsAuthenticated,)
     serializer_class = QuestionSerializer
     queryset = Questions.objects.all()
     
@@ -44,9 +50,10 @@ class LoginAsLevel(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        serializer = LoginLevelSerializer(data=data)
         request.session['eligible_for_level'] = False
         request.session['level_of_contest'] = None
+        serializer = LoginLevelSerializer(data=data)
+        
         if serializer.is_valid(raise_exception=True):
             new_data = serializer.data
             new_data['eligible_for_level'] = True
@@ -54,7 +61,7 @@ class LoginAsLevel(APIView):
             request.session['level_of_contest'] = new_data['level']
             if 'password' in new_data:
                 new_data.pop('password')    
-            return HttpResponseRedirect('/api/question/level/get/')    
+            return HttpResponseRedirect('/api/v1/level/get/')    
             #return Response(new_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)                
 

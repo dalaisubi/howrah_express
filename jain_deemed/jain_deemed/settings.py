@@ -25,7 +25,7 @@ SECRET_KEY = ')h&e5ne#2+n&n4_12@4-fqgj5)=n#%h*nzm03m$*awsnvsk8&s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,25 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'rest_framework.authtoken',
-    'rest_auth',
+    'rest_auth',   
     'user_accounts',
     'rounds',
     'questions',
-    'corsheaders',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.BrokenLinkEmailsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'jain_deemed.urls'
@@ -121,6 +121,7 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
+    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
     
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -130,6 +131,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     )
+
 }
 
 # Internationalization
@@ -153,15 +155,51 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# SITE_ID = 1
 
+CSRF_COOKIE_NAME = "csrftoken"
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_URLS_REGEX = r'^/api/.*$'
+
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'dnt',
+    'origin',
+    'x-csrftoken',
+    'x-requested-with',
+    'token',
+    'Authorization',
+    'Referrer-Policy',
+    'key',
+    'Content-Type',
+    'Depth',
+    'User-Agent', 
+    'X-File-Size',
+    'X-Requested-With',
+    'If-Modified-Since',
+    'X-File-Name',
+    'Cache-Control',
+    'Pragma'
+)
+
+CORS_ALLOW_METHODS = (
+    
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-    'https://peaceful-coast-96865.herokuapp.com'
-)
-CORS_ORIGIN_REGEX_WHITELIST = (
-    'localhost:3000',
-    'https://peaceful-coast-96865.herokuapp.com'
-)
+
+# CORS_ORIGIN_REGEX_WHITELIST = (
+#     'http://localhost:3000',
+#     'https://peaceful-coast-96865.herokuapp.com'
+# )
+
+#
