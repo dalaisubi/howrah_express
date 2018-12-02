@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rounds.views import FileUploadViewSet
+from rounds.views import FileUploadViewSet, TestAPI
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     #path('api/file-submit', FileUploadViewSet.as_view(), name="file-upload"),
     path('api/v1/file/', include('rounds.urls')),
     path('api/v1/', include('questions.urls')),
+    path('api/v1/test/', TestAPI.as_view())
    
 ]
 
