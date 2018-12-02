@@ -155,6 +155,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # SITE_ID = 1
 
+ACCOUNT_LOGOUT_ON_GET = True
+
 CSRF_COOKIE_NAME = "csrftoken"
 
 CORS_ALLOW_CREDENTIALS = True

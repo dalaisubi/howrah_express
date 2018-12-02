@@ -33,7 +33,6 @@ class QuestionList(generics.ListAPIView):
 
             qs = Questions.objects.filter(level=int(level_id))
             if qs.count() == 1:
-                print(qs,"eligible_for_level =====")
                 return qs             
         return qs 
 

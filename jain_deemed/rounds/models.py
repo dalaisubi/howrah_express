@@ -17,3 +17,10 @@ class File(models.Model):
 
 	def __str__(self):
 		return str(self.level) + "--" + str(self.owner)
+
+
+
+
+class Photo(models.Model):
+    blogs = models.ForeignKey(Level, related_name='level_img', on_delete=models.CASCADE, default=1)
+    image = models.FileField(blank=True, null=True)

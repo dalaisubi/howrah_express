@@ -1,7 +1,7 @@
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.viewsets import ModelViewSet
-from .models import FileUpload, File
-from .serializers import FileUploadSerializer, FileSerializer, TestSerializer
+from .models import FileUpload, File ,Photo
+from .serializers import FileUploadSerializer, FileSerializer, TestSerializer, PhotoSerializer, FileListSerializer
 
 from questions.models import Questions
 
@@ -61,3 +61,8 @@ class TestAPI(generics.ListCreateAPIView):
 	serializer_class = TestSerializer
 	permission_classes = (AllowAny,)
 
+
+class PhotoViewSet(ModelViewSet):
+    serializer_class = FileListSerializer
+    parser_classes = (MultiPartParser, FormParser,)
+    queryset=Photo.objects.all()
