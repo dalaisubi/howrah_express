@@ -14,7 +14,18 @@ class FileUploadSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class FileSerializer(serializers.ModelSerializer):
-	owner = serializers.ReadOnlyField(source='owner.user.id')
-	class Meta():
-		model = File
-		fields = ('file', 'remark', 'timestamp', 'level', 'owner')
+    owner = serializers.ReadOnlyField(source='owner.user.id')
+    class Meta():
+        model = File
+        fields = ('file', 'remark', 'timestamp', 'level', 'owner')
+
+
+class TestSerializer(serializers.ModelSerializer):
+    data = serializers.SerializerMethodField()
+
+    def get_data(self, obj):
+        return "hey manjul"
+
+    class Meta:
+        model = File
+        fields = ('data', 'id')    

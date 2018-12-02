@@ -1,7 +1,7 @@
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.viewsets import ModelViewSet
 from .models import FileUpload, File
-from .serializers import FileUploadSerializer, FileSerializer
+from .serializers import FileUploadSerializer, FileSerializer, TestSerializer
 
 from questions.models import Questions
 
@@ -11,6 +11,11 @@ from rest_framework import status
 
 import datetime
 from pytz import timezone 
+
+
+
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 
 class FileUploadViewSet(ModelViewSet):
@@ -50,3 +55,9 @@ class FileView(APIView):
 		else:
 			return Response({"response": "This task is expired"})		  
 					  
+
+class TestAPI(generics.ListCreateAPIView):
+	queryset = File.objects.all()
+	serializer_class = TestSerializer
+	permission_classes = (AllowAny,)
+
