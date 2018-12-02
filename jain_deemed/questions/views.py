@@ -15,28 +15,27 @@ import datetime
 from pytz import timezone 
 
 from rounds.models import File
+from django.http import JsonResponse
+
 
 class QuestionList(generics.ListAPIView):
-    authentication_classes = TokenAuthentication
-    #permission_classes = (IsAuthenticated,)
     serializer_class = QuestionSerializer
     queryset = Questions.objects.all()
-    
     def get_queryset(self):
         user = self.request.user.id
         level = None        
-        qs = Questions.objects.all()
+        qs = None
         if 'level_of_contest' in self.request.session:
             level = self.request.session['level_of_contest']      
         
-        print("eligible_for_level ------")
         if 'eligible_for_level' in self.request.session:
-            print("eligible_for_level =====")
             level_id = Level.objects.get(id=level).id
+
             qs = Questions.objects.filter(level=int(level_id))
             if qs.count() == 1:
-                return qs              
-        return qs   
+                print(qs,"eligible_for_level =====")
+                return qs             
+        return qs 
 
     def get_serializer_context(self):
         level = None

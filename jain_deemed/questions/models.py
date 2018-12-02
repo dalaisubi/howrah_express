@@ -30,7 +30,7 @@ class Questions(models.Model):
 	event = models.CharField(max_length=10, choices=DAY_IN_EVENT_CHOICES, default= 'Day-1', blank=False, null=False)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	time_in_hr = models.IntegerField(blank=False, null=False, choices=[(i, i) for i in range(0, 72)])
-	time_in_min = models.IntegerField(blank=False, null=False, choices=[(i, i) for i in range(1, 61)])
+	time_in_min = models.IntegerField(blank=False, null=False, choices=[(i, i) for i in range(0, 61)])
 
 
 	def __str__(self):
