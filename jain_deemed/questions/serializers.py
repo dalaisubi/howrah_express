@@ -31,8 +31,6 @@ class QuestionSerializer(serializers.ModelSerializer):
 	def get_timeleft(self, obj):
 		miniute = obj.time_in_min
 		hour = obj.time_in_hr
-
-		print( 'time_in_hr----')
 		return 'nn'	
 	class Meta():
 		model = Questions
@@ -55,7 +53,7 @@ class LoginLevelSerializer(serializers.ModelSerializer):
 
 	def validate(self , data):
 		level = data.get('level', None)
-		password = data.get('password', None)
+		password = data.get('password')
 		level_obj = None
 		if not level:
 			raise ValidationError('A level is required.')
@@ -68,13 +66,12 @@ class LoginLevelSerializer(serializers.ModelSerializer):
 		else:
 			raise ValidationError("Invalid level.")	
 
-		if level_obj and password:
+		if level_obj and password is not None:
 			password = Level.objects.filter(
 				Q(password__exact=password) & Q(id=level)
 				)
 			if password.exists():
-				eligible_for_level = True
-				
+				eligible_for_level = True				
 			else:
 				raise ValidationError("Incorrect password please try again.")
 
