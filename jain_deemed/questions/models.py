@@ -11,6 +11,7 @@ class Level(models.Model):
 		return self.level
 
 
+
 DAY_IN_EVENT_CHOICES = (
     ('1', '1'),
     ('2', '2'),
@@ -37,4 +38,10 @@ class Questions(models.Model):
 		return str(self.level) + "--" + str(self.id)
 
 
+class LevelForJudge(models.Model):
+	timestamp = models.DateTimeField(auto_now_add=True)
+	level = models.ForeignKey(Questions, to_field='id', on_delete=models.CASCADE, default=1, related_name='levelquestions')
+	password = models.CharField(max_length=20, validators=[MinLengthValidator(8)])
 
+	def __str__(self):
+		return str(self.level)

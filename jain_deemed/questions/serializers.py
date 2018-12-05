@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Questions, Level
+from .models import Questions, Level, LevelForJudge
 from rounds.models import File
 from django.db.models import Q
 from django.core.exceptions import ValidationError
@@ -35,6 +35,8 @@ class QuestionSerializer(serializers.ModelSerializer):
 	class Meta():
 		model = Questions
 		fields = ('id','level','title', 'timestamp', 'timeleft', 'day','event', 'question_1', 'question_2', 'hint_1', 'hint_2', 'hint_3', 'time_in_hr', 'time_in_min', 'Status')
+
+
 
 	
 class LoginLevelSerializer(serializers.ModelSerializer):
@@ -76,6 +78,48 @@ class LoginLevelSerializer(serializers.ModelSerializer):
 				raise ValidationError("Incorrect password please try again.")
 
 		return data
+
+
+class LoginLevelAsJudgeSerializer(serializers.ModelSerializer):
+	level = serializers.CharField(allow_blank=True, required=False)
+	password = serializers.CharField(allow_blank=True, required=False)
+	class Meta:
+		model = LevelForJudge
+		fields = [
+			'level',
+			'password',			
+		]
+
+		extra_kwargs = {'password': 
+					   		{'write_only': True}
+					   	}
+
+	def validate(self , data):
+		level = data.get('level', None)
+		password = data.get('password')
+		level_obj = None
+		if not level:
+			raise ValidationError('A level is required.')
+
+		level1 = LevelForJudge.objects.filter (
+				level=level
+			)		
+		if level1.exists() and level1.count() == 1:
+			level_obj = level1
+		else:
+			raise ValidationError("Invalid level.")	
+
+		if level_obj and password is not None:
+			password = LevelForJudge.objects.filter(
+				Q(password__exact=password) & Q(level=level)
+				)
+			if password.exists():
+				eligible_for_level = True				
+			else:
+				raise ValidationError("Incorrect password please try again.")
+
+		return data
+
 
 
 class AllTaskSerializers(serializers.ModelSerializer):
