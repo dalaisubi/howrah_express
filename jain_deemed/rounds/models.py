@@ -10,7 +10,7 @@ class FileUpload(models.Model):
 
 class File(models.Model):
 	file = models.FileField(blank=True, null=True)
-	remark = models.CharField(max_length=25)
+	remark = models.CharField(max_length=4000)
 	owner = models.ForeignKey(User, to_field='id', on_delete=models.CASCADE, default=1)
 	level = models.ForeignKey(Level, to_field='id', on_delete=models.CASCADE, default=1)
 	timestamp = models.DateTimeField(auto_now_add=True)

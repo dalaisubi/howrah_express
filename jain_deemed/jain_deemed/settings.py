@@ -119,6 +119,9 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
     
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
