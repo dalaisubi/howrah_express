@@ -50,7 +50,7 @@ class FileView(APIView):
 				  return Response(file_serializer.data, status=status.HTTP_201_CREATED)
 				else:
 				  return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-			else:
+			elif file_obj.count() == 1:
 				return Response({"response": "Already Submited"})
 		else:
 			return Response({"response": "This task is expired"})		  

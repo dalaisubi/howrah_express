@@ -77,6 +77,8 @@ class LevelLoginAsParticipant(APIView):
 
                     qs = Questions.objects.filter(level=int(level_id)).values()
                     if qs.count() == 1:
+                        for data in qs:
+                            qs[0]['file'] = "https://jainuniversity.opeyy.com/media/" + qs[0]['file']
                         return Response(qs, status=status.HTTP_200_OK)              
             
             ##### End ####    
