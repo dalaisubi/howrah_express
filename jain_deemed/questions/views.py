@@ -17,7 +17,6 @@ from pytz import timezone
 from rounds.models import File
 from django.http import JsonResponse
 
-import requests
 
 class QuestionList(generics.ListAPIView):
     serializer_class = QuestionSerializer
