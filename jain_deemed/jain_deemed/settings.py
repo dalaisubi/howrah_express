@@ -23,7 +23,7 @@ SECRET_KEY = ')h&e5ne#2+n&n4_12@4-fqgj5)=n#%h*nzm03m$*awsnvsk8&s'
 DEBUG = True
 
 ALLOWED_HOSTS = ['52.87.198.22', 'ec2-52-87-198-22.compute-1.amazonaws.com','jainuniversity.opeyy.com']
-
+#ALLOWED_HOSTS=[]
 
 # Application definition
 
@@ -187,7 +187,8 @@ CORS_ALLOW_HEADERS = (
     'If-Modified-Since',
     'X-File-Name',
     'Cache-Control',
-    'Pragma'
+    'Pragma',
+    'Content-Disposition'
 )
 
 CORS_ALLOW_METHODS = (
