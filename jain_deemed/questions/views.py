@@ -131,6 +131,7 @@ class LevelLoginAsJudge(APIView):
                         team_name = User.objects.filter(id=int(data["owner_id"])).values_list('username', flat=True)
                         d['file'] = "https://jainuniversity.opeyy.com/media/"+data['file']
                         d['team_name'] = team_name[0]
+                        d['remark'] = data['remark']
                         dlist.append(d.copy())
                     data = {
                         "quetion": qs,
